@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CoreTrack Pro | Elite Ecosystem</title>
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="CoreTrack">
     <link rel="apple-touch-icon" href="icon-192.png">
-    
     <meta name="theme-color" content="#050a10">
     <link rel="manifest" href="manifest.json">
+
     <style>
         :root {
             --bg-color: #050a10; 
@@ -48,7 +49,19 @@
 
         /* --- NAVIGATION --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 2rem 1rem 2rem; z-index: 100; flex-shrink: 0; }
-        .menu-btn { cursor: pointer; display: flex; flex-direction: column; gap: 6px; background: none; border: none; }
+        
+        /* TOUCH AREA VERGRÖSSERN */
+        .menu-btn { 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+            background: none; 
+            border: none; 
+            position: relative;
+            padding: 15px; 
+            margin: -15px; 
+        }
         .menu-btn span { width: 30px; height: 2px; background: white; border-radius: 2px; }
 
         .side-menu {
@@ -62,34 +75,51 @@
         .menu-item.active { color: #ffffff; font-weight: 900; opacity: 1; }
         .menu-item.active::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; margin-left: auto; }
 
-        /* --- GLASS UI ELITE --- */
+        /* --- GLASS UI PREMIUM LEVEL --- */
         .glass-card {
-            background: var(--glass-bg);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 35px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 15px 35px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2), 
+                inset 0 -1px 1px rgba(0, 0, 0, 0.2),
+                0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         h1 { font-size: 1.2rem; letter-spacing: 4px; font-weight: 800; }
         h1 span { font-weight: 200; opacity: 0.5; }
         h2 { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1.5rem; }
 
-        /* --- TIMER --- */
-        #fixed-timer-zone { flex-shrink: 0; padding: 0.5rem 2rem 1.5rem 2rem; z-index: 50; }
-        #session-timer { font-size: 3.8rem; font-weight: 200; text-align: center; margin: 0; letter-spacing: -2px; }
+        /* --- TRAININGSVIEW OPTIMIERUNG --- */
+        #fixed-timer-zone { flex-shrink: 0; padding: 1rem 2rem; z-index: 50; }
+        .header-session-compact { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        #session-timer { font-size: 1.8rem; font-weight: 400; text-align: left; margin: 0; letter-spacing: 0px; }
 
         /* --- BUTTONS & HOVER --- */
         .main-circle-btn {
-            width: 220px; height: 220px; border-radius: 50%; border: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); color: var(--accent);
+            width: 220px; height: 220px; border-radius: 50%; 
+            /* Premium Glass Upgrade für den Start-Button */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: var(--accent);
             font-size: 1.2rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+                inset 0 -1px 1px rgba(0, 0, 0, 0.2),
+                0 20px 50px rgba(0, 0, 0, 0.5);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .main-circle-btn:hover { background: rgba(255,255,255,0.08); box-shadow: 0 0 40px rgba(255,255,255,0.1); transform: scale(1.03); }
+        .main-circle-btn:hover { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+            box-shadow: 0 0 60px rgba(255,255,255,0.15); 
+            transform: scale(1.03); 
+        }
         .main-circle-btn:active { transform: scale(0.92); }
         
         .btn-primary { background: var(--accent); color: var(--bg-color); border: none; padding: 1.1rem; border-radius: 18px; font-weight: 800; width: 100%; cursor: pointer; }
@@ -101,7 +131,6 @@
         .set-row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; animation: popIn 0.3s ease; }
         .set-number { background: rgba(255,255,255,0.1); width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.7rem; color: var(--text-dim); }
         .history-ex-box { background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .history-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
 
         /* --- OVERLAYS --- */
         .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -127,9 +156,13 @@
     </header>
 
     <div id="fixed-timer-zone" class="hidden">
-        <h2 id="session-plan-title" style="text-align:center; opacity:0.5;">Workout</h2>
-        <div id="session-timer">00:00</div>
-        <center><button onclick="openModal('modal-confirm')" style="background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-size: 0.7rem; margin-top: 10px; text-transform: uppercase;">Beenden</button></center>
+        <div class="header-session-compact">
+            <div style="display: flex; flex-direction: column;">
+                <h2 id="session-plan-title" style="margin-bottom: 2px; opacity:0.5; letter-spacing: 1px;">Workout</h2>
+                <div id="session-timer">00:00</div>
+            </div>
+            <button onclick="openModal('modal-confirm')" style="background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); color:white; padding:10px 18px; border-radius:15px; cursor:pointer; font-size: 0.7rem; text-transform: uppercase; font-weight: 700;">Beenden</button>
+        </div>
     </div>
 
     <div class="scroll-area" id="main-scroll">
@@ -141,14 +174,11 @@
         </div>
 
         <div id="view-selector" class="hidden">
-            <h2>Gym Pläne</h2>
-            <div id="template-list-selector"></div>
-            <div class="glass-card" style="border-style: dashed; background: rgba(255,255,255,0.02);">
-                <input type="text" id="plan-name-input" placeholder="Plan Name">
-                <div style="display:flex; gap:10px; margin-top:10px;"><input type="text" id="ex-input" placeholder="Übung hinzufügen..."><button onclick="addExToTempList()" style="padding:0 15px; border-radius:12px; border:none; background:white; font-weight:bold;">+</button></div>
-                <div id="temp-ex-list" style="margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px;"></div>
-                <button class="btn-primary" onclick="saveFullPlan()">SPEICHERN</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h2>Gym Pläne</h2>
+                <button onclick="openModal('modal-create-plan')" style="background:var(--accent); color:var(--bg-color); border:none; padding:8px 15px; border-radius:12px; font-weight:800; font-size:0.7rem; cursor:pointer;">+ NEUER PLAN</button>
             </div>
+            <div id="template-list-selector"></div>
             <center><button onclick="showView('view-history')" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:0.65rem; margin-top:1.5rem; text-transform:uppercase; letter-spacing:1px;">Logbuch öffnen</button></center>
         </div>
 
@@ -169,8 +199,33 @@
         </div>
     </div>
 
+    <div id="modal-create-plan" class="overlay hidden">
+        <div class="glass-card pop-in" style="width: 100%; max-width: 400px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3 style="letter-spacing:2px; font-size:0.9rem;">NEUEN PLAN ERSTELLEN</h3>
+                <button onclick="closeModal('modal-create-plan')" style="background:none; border:none; color:white; font-size:1.2rem;">✕</button>
+            </div>
+            <input type="text" id="plan-name-input" placeholder="Name des Plans">
+            <div style="display:flex; gap:10px;"><input type="text" id="ex-input" placeholder="Übung..."><button onclick="addExToTempList()" style="padding:0 15px; border-radius:12px; border:none; background:white; font-weight:bold;">+</button></div>
+            <div id="temp-ex-list" style="margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            <button class="btn-primary" onclick="saveFullPlan()">PLAN SPEICHERN</button>
+        </div>
+    </div>
+
+    <div id="modal-edit-plan" class="overlay hidden">
+        <div class="glass-card pop-in" style="width: 100%; max-width: 400px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3 style="letter-spacing:2px; font-size:0.9rem;">PLAN BEARBEITEN</h3>
+                <button onclick="closeModal('modal-edit-plan')" style="background:none; border:none; color:white; font-size:1.2rem;">✕</button>
+            </div>
+            <input type="text" id="edit-plan-name-input" placeholder="Name des Plans">
+            <div style="display:flex; gap:10px;"><input type="text" id="edit-ex-input" placeholder="Übung hinzufügen..."><button onclick="addExToEditList()" style="padding:0 15px; border-radius:12px; border:none; background:white; font-weight:bold;">+</button></div>
+            <div id="edit-ex-list" style="margin: 15px 0; display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto;"></div>
+            <button class="btn-primary" id="save-edit-plan-btn">ÄNDERUNGEN SPEICHERN</button>
+        </div>
+    </div>
+
     <div id="modal-delete" class="overlay hidden"><div class="glass-card pop-in" style="width: 320px; text-align: center;"><h3 style="color:var(--loss);">Löschen?</h3><div style="display: flex; gap: 10px; margin-top:1.5rem;"><button class="btn-primary" style="background:none; border:1px solid var(--glass-border); color:white;" onclick="closeModal('modal-delete')">Abbrechen</button><button class="btn-primary" id="confirm-delete-btn" style="background:var(--loss);">Löschen</button></div></div></div>
-    
     <div id="modal-confirm" class="overlay hidden"><div class="glass-card pop-in" style="width: 320px; text-align: center;"><h3>Workout beenden?</h3><div style="display: flex; gap: 10px; margin-top:1.5rem;"><button class="btn-primary" style="background:none; border:1px solid var(--glass-border); color:white;" onclick="closeModal('modal-confirm')">Nein</button><button class="btn-primary" onclick="processEndSession()">Ja, Fertig</button></div></div></div>
 
     <div id="summary-overlay" class="overlay hidden">
@@ -190,10 +245,9 @@
     let currentCategory = 'Gym';
     let templates = JSON.parse(localStorage.getItem('ct_templates')) || [];
     let history = JSON.parse(localStorage.getItem('ct_history')) || [];
-    let tempExercises = [];
+    let tempExercises = [], editTempExercises = [], currentEditPlanId = null;
     let currentSession = null, timerInt, secs = 0, planToDelete = null;
 
-    // --- NAVIGATION & SWIPE ---
     const menu = document.getElementById('side-menu');
     let touchStartX = 0;
     menu.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
@@ -220,7 +274,6 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // --- GYM ENGINE ---
     function addExToTempList() {
         const val = document.getElementById('ex-input').value;
         if(!val) return;
@@ -235,13 +288,48 @@
         templates.push({ id: Date.now(), name, exercises: tempExercises });
         localStorage.setItem('ct_templates', JSON.stringify(templates));
         tempExercises = []; renderTemplates();
-        document.getElementById('plan-name-input').value = '';
-        document.getElementById('temp-ex-list').innerHTML = '';
+        closeModal('modal-create-plan');
     }
 
     function renderTemplates() {
         const list = document.getElementById('template-list-selector');
-        list.innerHTML = templates.map(t => `<div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;" onclick="startSession(${t.id})"><div><strong>${t.name}</strong><br><small style="opacity:0.5">${t.exercises.length} Übungen</small></div><button class="delete-btn" onclick="event.stopPropagation(); triggerDelete(${t.id})">Löschen</button></div>`).join('');
+        list.innerHTML = templates.map(t => `
+            <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;" onclick="startSession(${t.id})">
+                <div style="flex:1;"><strong>${t.name}</strong><br><small style="opacity:0.5">${t.exercises.length} Übungen</small></div>
+                <div style="display:flex; gap:10px;">
+                    <button class="delete-btn" style="color:var(--text-dim);" onclick="event.stopPropagation(); openEditPlan(${t.id})">Edit</button>
+                    <button class="delete-btn" onclick="event.stopPropagation(); triggerDelete(${t.id})">Löschen</button>
+                </div>
+            </div>`).join('');
+    }
+
+    function openEditPlan(id) {
+        currentEditPlanId = id;
+        const plan = templates.find(t => t.id === id);
+        document.getElementById('edit-plan-name-input').value = plan.name;
+        editTempExercises = [...plan.exercises];
+        renderEditExList();
+        openModal('modal-edit-plan');
+        document.getElementById('save-edit-plan-btn').onclick = () => {
+            const newName = document.getElementById('edit-plan-name-input').value;
+            const planIdx = templates.findIndex(t => t.id === currentEditPlanId);
+            templates[planIdx].name = newName;
+            templates[planIdx].exercises = editTempExercises;
+            localStorage.setItem('ct_templates', JSON.stringify(templates));
+            renderTemplates(); closeModal('modal-edit-plan');
+        };
+    }
+
+    function addExToEditList() {
+        const val = document.getElementById('edit-ex-input').value;
+        if(val) { editTempExercises.push(val); document.getElementById('edit-ex-input').value = ''; renderEditExList(); }
+    }
+
+    function removeExFromEditList(idx) { editTempExercises.splice(idx, 1); renderEditExList(); }
+
+    function renderEditExList() {
+        const cont = document.getElementById('edit-ex-list');
+        cont.innerHTML = editTempExercises.map((ex, idx) => `<div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.05); padding:10px; border-radius:12px; margin-bottom:5px;"><span>${ex}</span><button onclick="removeExFromEditList(${idx})" style="background:none; border:none; color:var(--loss);">✕</button></div>`).join('');
     }
 
     function triggerDelete(id) {
@@ -257,27 +345,18 @@
         const t = templates.find(x => x.id === id);
         currentSession = { name: t.name, logs: {}, startTime: Date.now() };
         document.getElementById('session-plan-title').innerText = t.name;
-        
         const list = document.getElementById('active-exercises-list');
         list.innerHTML = t.exercises.map(ex => {
             const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
             const lastMaxWeight = lastData.sets && lastData.sets.length > 0 ? Math.max(...lastData.sets.map(s => s.w)) : 0;
-            
             return `<div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3>${ex}</h3>
-                    <div style="font-size:0.65rem; color:var(--text-dim); text-align:right;">LETZTES MAX:<br><strong>${lastMaxWeight}kg</strong></div>
-                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><h3>${ex}</h3><div style="font-size:0.65rem; color:var(--text-dim); text-align:right;">LETZTES MAX:<br><strong>${lastMaxWeight}kg</strong></div></div>
                 <div id="sets-cont-${ex.replace(/\s/g,'')}"></div>
                 <button onclick="addSetRow('${ex}')" style="width:100%; background:rgba(255,255,255,0.05); border:1px dashed var(--glass-border); color:white; padding:12px; border-radius:15px; margin-top:10px; font-size:0.8rem;">+ SATZ HINZUFÜGEN</button>
-                <div id="vol-info-${ex.replace(/\s/g,'')}" style="margin-top:15px; font-size:0.75rem; color:var(--text-dim); display:flex; justify-content:space-between;">
-                    <span>Volumen: <strong id="vol-val-${ex.replace(/\s/g,'')}">0</strong> kg</span>
-                    <span id="live-${ex.replace(/\s/g,'')}"></span>
-                </div>
+                <div id="vol-info-${ex.replace(/\s/g,'')}" style="margin-top:15px; font-size:0.75rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span>Volumen: <strong id="vol-val-${ex.replace(/\s/g,'')}">0</strong> kg</span><span id="live-${ex.replace(/\s/g,'')}"></span></div>
                 <textarea placeholder="Notiz..." style="margin-top:10px;" oninput="updateNote('${ex}', this.value)"></textarea>
             </div>`;
         }).join('');
-        
         showView('view-session');
         secs = 0; timerInt = setInterval(() => { secs++; document.getElementById('session-timer').innerText = `${Math.floor(secs/60).toString().padStart(2,'0')}:${(secs%60).toString().padStart(2,'0')}`; }, 1000);
     }
@@ -297,7 +376,7 @@
             const lastVol = lastSet.w * lastSet.r;
             const currentVol = prevW * prevR;
             const diff = lastVol > 0 ? (((currentVol - lastVol) / lastVol) * 100).toFixed(0) : 0;
-            setDiffHtml = `<span id="set-diff-${ex.replace(/\s/g,'')}-${setIdx}" style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
+            setDiffHtml = `<span id="set-diff-cont-${ex.replace(/\s/g,'')}-${setIdx}" style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
         }
 
         const cont = document.getElementById(`sets-cont-${ex.replace(/\s/g,'')}`);
@@ -309,9 +388,8 @@
             <input type="number" placeholder="REPS" value="${prevR > 0 ? prevR : ''}" oninput="updateSetData('${ex}', ${setIdx}, 'r', this.value)" style="margin-bottom:0; flex:1;">
             <div style="font-size:0.6rem; width:45px; text-align:right; opacity:0.8;">
                 <span id="set-vol-${ex.replace(/\s/g,'')}-${setIdx}">${prevW * prevR}</span><br>
-                <span id="set-diff-cont-${ex.replace(/\s/g,'')}-${setIdx}">${setDiffHtml}</span>
-            </div>
-        `;
+                <span id="set-diff-area-${ex.replace(/\s/g,'')}-${setIdx}">${setDiffHtml}</span>
+            </div>`;
         cont.appendChild(div);
         calcExVolume(ex);
     }
@@ -328,8 +406,7 @@
         if(lastSet) {
             const lastVol = lastSet.w * lastSet.r;
             const diff = lastVol > 0 ? (((currentVol - lastVol) / lastVol) * 100).toFixed(0) : 0;
-            document.getElementById(`set-diff-cont-${ex.replace(/\s/g,'')}-${idx}`).innerHTML = 
-                `<span style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
+            document.getElementById(`set-diff-area-${ex.replace(/\s/g,'')}-${idx}`).innerHTML = `<span style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
         }
         calcExVolume(ex);
     }
@@ -337,8 +414,7 @@
     function calcExVolume(ex) {
         const log = currentSession.logs[ex];
         const currentExVol = log.sets.reduce((sum, s) => sum + (s.w * s.r), 0);
-        const volValEl = document.getElementById(`vol-val-${ex.replace(/\s/g,'')}`);
-        if(volValEl) volValEl.innerText = currentExVol.toLocaleString();
+        document.getElementById(`vol-val-${ex.replace(/\s/g,'')}`).innerText = currentExVol.toLocaleString();
         
         const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
         const lastExVol = lastData.sets ? lastData.sets.reduce((sum, s) => sum + (s.w * s.r), 0) : 0;
@@ -349,20 +425,15 @@
         }
     }
 
-    function updateNote(ex, val) { 
-        if(!currentSession.logs[ex]) currentSession.logs[ex] = {sets:[], note:''}; 
-        currentSession.logs[ex].note = val; 
-    }
+    function updateNote(ex, val) { currentSession.logs[ex].note = val; }
 
     function processEndSession() {
         clearInterval(timerInt);
-        let totalVol = 0; 
-        let detailHTML = "";
+        let totalVol = 0; let detailHTML = "";
         const sessionToSave = { ...currentSession, endTime: Date.now(), duration: document.getElementById('session-timer').innerText };
-
+        
         for(let key in sessionToSave.logs) {
-            const l = sessionToSave.logs[key];
-            const exVol = l.sets.reduce((sum, s) => sum + (s.w * s.r), 0);
+            const exVol = sessionToSave.logs[key].sets.reduce((sum, s) => sum + (s.w * s.r), 0);
             totalVol += exVol;
             if(exVol > 0) detailHTML += `<div style="margin-bottom:8px;">• ${key}: <strong>${exVol.toLocaleString()} kg</strong></div>`;
         }
@@ -370,8 +441,7 @@
         const lastSessionSamePlan = history.slice().reverse().find(h => h.name === sessionToSave.name);
         let totalDiffHtml = "";
         if(lastSessionSamePlan) {
-            const lastTotalVol = Object.values(lastSessionSamePlan.logs).reduce((sum, ex) => 
-                sum + ex.sets.reduce((sSum, s) => sSum + (s.w * s.r), 0), 0);
+            const lastTotalVol = Object.values(lastSessionSamePlan.logs).reduce((sum, ex) => sum + ex.sets.reduce((sSum, s) => sSum + (s.w * s.r), 0), 0);
             const diff = lastTotalVol > 0 ? (((totalVol - lastTotalVol) / lastTotalVol) * 100).toFixed(1) : 0;
             totalDiffHtml = `<br><span style="font-size:0.8rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'▲': '▼'} ${diff>=0?'+':''}${diff}% vs. letztes Mal</span>`;
         }
@@ -379,34 +449,28 @@
         document.getElementById('sum-vol').innerHTML = totalVol.toLocaleString() + " kg" + totalDiffHtml;
         document.getElementById('sum-time').innerText = sessionToSave.duration;
         document.getElementById('sum-ex-details').innerHTML = detailHTML || "Keine Daten.";
-        
-        history.push(sessionToSave); 
-        localStorage.setItem('ct_history', JSON.stringify(history));
+        history.push(sessionToSave); localStorage.setItem('ct_history', JSON.stringify(history));
         closeModal('modal-confirm'); openModal('summary-overlay');
     }
 
     function renderHistory() {
         const container = document.getElementById('history-container');
-        if(!history || history.length === 0) { container.innerHTML = `<div class="glass-card">Logbuch leer.</div>`; return; }
+        if(!history.length) { container.innerHTML = `<div class="glass-card">Logbuch leer.</div>`; return; }
         container.innerHTML = history.slice().reverse().map(h => {
-            if(!h || !h.logs) return ''; 
             let exHtml = "";
             for(let ex in h.logs) {
                 const log = h.logs[ex];
                 if(!log.sets || log.sets.length === 0) continue;
                 const exVol = log.sets.reduce((sum, s) => sum + (s.w * s.r), 0);
                 exHtml += `<div class="history-ex-box">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>${ex}</strong><span style="color:white; opacity:0.6; font-size:0.7rem;">Vol: ${exVol.toLocaleString()}kg</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>${ex}</strong><span style="opacity:0.6; font-size:0.7rem;">Vol: ${exVol.toLocaleString()}kg</span></div>
                     <div style="display:flex; flex-wrap:wrap; gap:5px;">
-                        ${log.sets.map(s => `<span class="set-badge" style="background:rgba(255,255,255,0.1); padding:3px 8px; border-radius:5px; font-size:0.7rem;">${s.w}kg x ${s.r}</span>`).join('')}
+                        ${log.sets.map(s => `<span style="background:rgba(255,255,255,0.1); padding:3px 8px; border-radius:5px; font-size:0.7rem;">${s.w}kg x ${s.r}</span>`).join('')}
                     </div>
                     ${log.note ? `<div style="font-size:0.7rem; opacity:0.5; margin-top:8px; font-style:italic;">${log.note}</div>` : ''}
                 </div>`;
             }
-            return `<div class="glass-card">
-                <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:5px;"><strong style="letter-spacing:1px;">${h.name}</strong><small style="opacity:0.5;">${new Date(h.startTime).toLocaleDateString()}</small></div>
-                ${exHtml}
-            </div>`;
+            return `<div class="glass-card"><div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:5px;"><strong>${h.name}</strong><small style="opacity:0.5;">${new Date(h.startTime).toLocaleDateString()}</small></div>${exHtml}</div>`;
         }).join('');
     }
 
