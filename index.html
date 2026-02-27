@@ -3,552 +3,737 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoreTrack Pro | Elite Ecosystem</title>
+    <title>CoreTrack Pro | Absolute Elite V4.8</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="CoreTrack">
-    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#050a10">
-    <link rel="manifest" href="manifest.json">
 
     <style>
         :root {
             --bg-color: #050a10; 
-            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-blur: blur(25px);
+            --glass-blur: blur(35px);
             --accent: #ffffff;
             --text-main: #ffffff;
             --text-dim: #a0aab4;
             --gain: #4caf50;
             --loss: #f44336;
+            --info: #2196f3;
+            /* Categories */
+            --cat-brust: #ff4b2b;
+            --cat-ruecken: #00d2ff;
+            --cat-beine: #9d50bb;
+            --cat-schultern: #f2c94c;
+            --cat-arme: #27ae60;
+            --cat-gym: #607d8b;
+            /* Modules */
+            --mod-cardio: #ff9f43;
+            --mod-nutrition: #00dbde;
+            --mod-sleep: #667eea;
+            --mod-focus: #f80759;
+            --mod-water: #00c6ff;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        ::-webkit-scrollbar { display: none; }
+
         body { 
             background-color: var(--bg-color); 
             color: var(--text-main); 
-            display: flex; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            background-image: 
-                linear-gradient(rgba(5, 10, 20, 0.75), rgba(5, 10, 20, 0.75)), 
-                url('IMG_6653.jpg');
-            background-size: cover;
-            background-position: center;
+            height: 100vh; overflow: hidden; 
+            background-image: radial-gradient(circle at 50% -20%, #1a2a44, #050a10);
+            display: flex; justify-content: center;
         }
         
-        .container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; z-index: 1; position: relative; }
-        
-        .scroll-area { flex: 1; overflow-y: auto; padding: 0 2rem 2rem 2rem; -webkit-overflow-scrolling: touch; }
-
+        .container { width: 100%; max-width: 500px; height: 100%; display: flex; flex-direction: column; position: relative; }
+        .scroll-area { flex: 1; overflow-y: auto; padding: 0 1.5rem 10rem 1.5rem; -webkit-overflow-scrolling: touch; }
         .hidden { display: none !important; }
 
         /* --- NAVIGATION --- */
-        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 2rem 1rem 2rem; z-index: 100; flex-shrink: 0; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 1.5rem 1rem 1.5rem; z-index: 100; transition: 0.3s; }
+        .menu-btn { cursor: pointer; display: flex; flex-direction: column; gap: 7px; background: none; border: none; z-index: 2100; width: 40px; }
+        .menu-btn span { width: 100%; height: 2px; background: white; border-radius: 2px; transition: 0.3s; }
         
-        /* TOUCH AREA VERGRÖSSERN */
-        .menu-btn { 
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 6px; 
-            background: none; 
-            border: none; 
-            position: relative;
-            padding: 15px; 
-            margin: -15px; 
-        }
-        .menu-btn span { width: 30px; height: 2px; background: white; border-radius: 2px; }
-
         .side-menu {
-            position: fixed; top: 0; left: -100%; width: 280px; height: 100%;
-            background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(40px);
-            z-index: 2000; padding: 4rem 2rem; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            position: fixed; top: 0; left: -100%; width: 100%; max-width: 320px; height: 100%;
+            background: rgba(5, 10, 20, 0.98); backdrop-filter: blur(50px);
+            z-index: 2000; padding: 7rem 2rem; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             border-right: 1px solid var(--glass-border);
         }
         .side-menu.open { left: 0; }
-        .menu-item { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem; cursor: pointer; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .menu-item.active { color: #ffffff; font-weight: 900; opacity: 1; }
-        .menu-item.active::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; margin-left: auto; }
+        .menu-item { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem; cursor: pointer; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; }
+        .menu-item.active { color: #ffffff; font-weight: 900; }
+        .menu-item.active::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; margin-left: auto; box-shadow: 0 0 10px white; }
 
-        /* --- GLASS UI PREMIUM LEVEL --- */
+        /* --- DASHBOARD ELEMENTS --- */
         .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 35px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 
-                inset 0 1px 1px rgba(255, 255, 255, 0.2), 
-                inset 0 -1px 1px rgba(0, 0, 0, 0.2),
-                0 20px 40px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(165deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+            backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 35px;
+            padding: 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
         }
 
-        h1 { font-size: 1.2rem; letter-spacing: 4px; font-weight: 800; }
-        h1 span { font-weight: 200; opacity: 0.5; }
-        h2 { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1.5rem; }
-
-        /* --- TRAININGSVIEW OPTIMIERUNG --- */
-        #fixed-timer-zone { flex-shrink: 0; padding: 1rem 2rem; z-index: 50; }
-        .header-session-compact { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        #session-timer { font-size: 1.8rem; font-weight: 400; text-align: left; margin: 0; letter-spacing: 0px; }
-
-        /* --- BUTTONS & HOVER --- */
-        .main-circle-btn {
-            width: 220px; height: 220px; border-radius: 50%; 
-            /* Premium Glass Upgrade für den Start-Button */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            color: var(--accent);
-            font-size: 1.2rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 
-                inset 0 1px 1px rgba(255, 255, 255, 0.3), 
-                inset 0 -1px 1px rgba(0, 0, 0, 0.2),
-                0 20px 50px rgba(0, 0, 0, 0.5);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .hero-circle {
+            width: 220px; height: 220px; border-radius: 50%; border: 1px solid var(--glass-border);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: 2rem auto; position: relative; transition: 0.4s;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
         }
-        .main-circle-btn:hover { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
-            box-shadow: 0 0 60px rgba(255,255,255,0.15); 
-            transform: scale(1.03); 
+        .hero-circle .val { font-size: 3rem; font-weight: 900; letter-spacing: -2px; }
+        .hero-circle .label { font-size: 0.7rem; letter-spacing: 4px; opacity: 0.5; text-transform: uppercase; }
+
+        .health-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 1rem; }
+        .stat-card { 
+            padding: 1.2rem; border-radius: 28px; background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--glass-border); position: relative; transition: 0.3s;
         }
-        .main-circle-btn:active { transform: scale(0.92); }
+        .stat-card h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.4; margin-bottom: 8px; }
+        .stat-card .val { font-size: 1.3rem; font-weight: 800; }
+        .stat-card .unit { font-size: 0.7rem; opacity: 0.5; font-weight: 400; }
+
+        /* --- IMMERSIVE SESSION BAR --- */
+        #live-session-bar {
+            padding: 3.5rem 1.5rem 1.5rem 1.5rem;
+            background: transparent;
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1500;
+        }
+
+        /* --- INPUTS & BUTTONS --- */
+        input, select, textarea { 
+            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); 
+            padding: 18px; color: white; border-radius: 18px; width: 100%; 
+            margin-bottom: 15px; font-size: 1rem; outline: none; transition: 0.3s;
+        }
         
-        .btn-primary { background: var(--accent); color: var(--bg-color); border: none; padding: 1.1rem; border-radius: 18px; font-weight: 800; width: 100%; cursor: pointer; }
-        .delete-btn { color: var(--loss); background: none; border: none; font-size: 0.7rem; cursor: pointer; padding: 5px; font-weight: bold; text-transform: uppercase; }
-
-        input, textarea { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border); padding: 14px; color: white; border-radius: 12px; width: 100%; margin-bottom: 10px; font-size: 0.9rem; }
+        .btn-primary { 
+            background: white; color: black; border: none; padding: 1.2rem; 
+            border-radius: 22px; font-weight: 900; width: 100%; cursor: pointer; 
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+        }
+        .btn-primary:active { transform: scale(0.98); }
         
-        /* --- SATZ SYSTEM & LOGBUCH DESIGN --- */
-        .set-row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; animation: popIn 0.3s ease; }
-        .set-number { background: rgba(255,255,255,0.1); width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.7rem; color: var(--text-dim); }
-        .history-ex-box { background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .btn-sub { 
+            background: rgba(255,255,255,0.08); color: white; border: none; 
+            padding: 12px 20px; border-radius: 15px; font-size: 0.75rem; 
+            font-weight: 700; cursor: pointer; letter-spacing: 1px;
+        }
+
+        /* --- CHIPS / CARDIO SELECT --- */
+        .chip-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
+        .chip { 
+            padding: 10px 18px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            border-radius: 15px; white-space: nowrap; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .chip.active { background: white; color: black; border-color: white; }
+
+        /* --- GYM SYSTEM --- */
+        .set-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .set-num { 
+            width: 32px; height: 32px; background: rgba(255,255,255,0.1); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+        }
+
+        .timer-strip {
+            display: flex; gap: 8px; margin-top: 15px; padding: 10px; 
+            background: rgba(0,0,0,0.2); border-radius: 18px; align-items: center;
+        }
+        .t-btn { flex: 1; padding: 8px; border-radius: 12px; border: none; background: rgba(255,255,255,0.05); color: white; font-size: 0.7rem; font-weight: bold; }
+        .t-display { font-family: monospace; color: var(--gain); font-weight: bold; padding: 0 10px; font-size: 1.1rem; }
+
+        /* --- PROGRESS BARS --- */
+        .bar-wrap { margin-bottom: 20px; }
+        .bar-info { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px; font-weight: 600; }
+        .bar-outer { height: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .bar-inner { height: 100%; border-radius: 6px; transition: 1.5s cubic-bezier(0.2, 1, 0.3, 1); }
+
+        /* --- LOGBUCH / HISTORY --- */
+        .history-card { 
+            padding: 1.5rem; border-radius: 30px; background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--glass-border); margin-bottom: 1rem;
+        }
+        .log-tag { 
+            display: inline-block; padding: 4px 10px; border-radius: 8px; 
+            background: rgba(255,255,255,0.06); font-size: 0.65rem; margin-right: 5px; margin-top: 5px;
+            text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--glass-border);
+        }
+
+        /* --- TAGS & CAT COLORS --- */
+        .cat-badge {
+            display: inline-block; padding: 5px 10px; border-radius: 8px; font-size: 0.6rem;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border: 1px solid transparent;
+        }
 
         /* --- OVERLAYS --- */
-        .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .pop-in { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        /* ============================= */
-/* SPLASH SCREEN – VISION STYLE */
-/* ============================= */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.97); backdrop-filter: blur(25px); z-index: 4000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .pop-in { animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%; max-width: 440px; }
+        @keyframes popIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 
-#splash-screen {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 15, 25, 0.15); /* weniger stark verschwommen */
-    backdrop-filter: blur(30px) saturate(160%);
-    -webkit-backdrop-filter: blur(30px) saturate(160%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
+        h2 { font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim); margin: 1.5rem 0 1rem 0; font-weight: 800; }
+        
+        .summary-stat { border-bottom: 1px solid var(--glass-border); padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
+        .summary-stat:last-child { border-bottom: none; }
 
-.splash-glass {
-    padding: 50px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.05); /* durchsichtig genug, dass HG sichtbar bleibt */
-    backdrop-filter: blur(40px) saturate(160%);
-    -webkit-backdrop-filter: blur(40px) saturate(160%);
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
-
-    /* Aufpoppen gleichzeitig mit Logo */
-    opacity: 0;
-    transform: scale(0.9);
-    animation: splashPop 1s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-
-/* Logo gleichzeitig */
-.splash-logo {
-    width: 110px;
-    opacity: 0;
-    transform: scale(0.9);
-    animation: logoPop 1s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-
-/* Aufpoppen Animation */
-@keyframes splashPop {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes logoPop {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Splash verschwindet sanft */
-#splash-screen.hide {
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    pointer-events: none;
-}
+        .c-cardio { border-left: 4px solid var(--mod-cardio); }
+        .c-nutri { border-left: 4px solid var(--mod-nutrition); }
+        .c-sleep { border-left: 4px solid var(--mod-sleep); }
+        .c-water { border-left: 4px solid var(--mod-water); }
     </style>
 </head>
 <body>
-<div id="splash-screen">
-    <div class="splash-glass">
-        <img src="logo.png" alt="CoreTrack Logo" class="splash-logo">
-    </div>
-</div>
-<div id="side-menu" class="side-menu">
-    <button onclick="toggleMenu()" style="position: absolute; top: 2rem; right: 2rem; background: none; border: none; color: white; font-size: 1.5rem;">✕</button>
-    <div class="menu-item active" data-id="Gym" onclick="switchCategory('Gym')">Gym</div>
-    <div class="menu-item" data-id="Cardio" onclick="switchCategory('Cardio')">Cardio</div>
-    <div class="menu-item" data-id="Meditation" onclick="switchCategory('Meditation')">Meditation</div>
-    <div class="menu-item" data-id="Ernährung" onclick="switchCategory('Ernährung')">Ernährung</div>
-    <div class="menu-item" data-id="Schlaf" onclick="switchCategory('Schlaf')">Schlaf</div>
-</div>
+
+<nav id="side-menu" class="side-menu">
+    <div class="menu-item active" data-view="view-dashboard" onclick="changeView('view-dashboard')">Übersicht</div>
+    <div class="menu-item" data-view="view-selector" onclick="changeView('view-selector')">Gym Pläne</div>
+    <div class="menu-item" data-view="view-exercises" onclick="changeView('view-exercises')">Übungsliste</div>
+    <div class="menu-item" data-view="view-cardio" onclick="changeView('view-cardio')">Cardio</div>
+    <div class="menu-item" data-view="view-health" onclick="changeView('view-health')">Lifestyle</div>
+    <div class="menu-item" data-view="view-history" onclick="changeView('view-history')">Logbuch</div>
+    <div class="menu-item" data-view="view-insights" onclick="changeView('view-insights')">Einblicke</div>
+    <div class="menu-item" data-view="view-settings" onclick="changeView('view-settings')">Einstellungen</div>
+    <div style="margin-top: auto; opacity: 0.2; font-size: 0.6rem; letter-spacing: 2px;">CORETRACK ELITE V4.8.0</div>
+</nav>
 
 <div class="container">
-    <header class="top-nav">
-        <h1>CORE<span>TRACK</span></h1>
+    <header id="main-header" class="top-nav">
+        <h1 onclick="location.reload()" style="font-size: 1.2rem; letter-spacing: 6px;">CORE<span style="font-weight:200; opacity:0.5;">TRACK</span></h1>
         <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     </header>
 
-    <div id="fixed-timer-zone" class="hidden">
-        <div class="header-session-compact">
-            <div style="display: flex; flex-direction: column;">
-                <h2 id="session-plan-title" style="margin-bottom: 2px; opacity:0.5; letter-spacing: 1px;">Workout</h2>
-                <div id="session-timer">00:00</div>
+    <div id="live-session-bar" class="hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <small id="active-plan-name" style="color:var(--text-dim); text-transform:uppercase; font-size:0.6rem; letter-spacing:2px;"></small>
+                <div id="session-clock" style="font-size:2.5rem; font-weight:900; letter-spacing:-2px;">00:00</div>
             </div>
-            <button onclick="openModal('modal-confirm')" style="background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); color:white; padding:10px 18px; border-radius:15px; cursor:pointer; font-size: 0.7rem; text-transform: uppercase; font-weight: 700;">Beenden</button>
+            <button class="btn-primary" onclick="confirmEndSession()" style="width:auto; padding: 12px 30px; background:rgba(255,255,255,0.1); color:white; border:1px solid white;">STOP</button>
         </div>
     </div>
 
-    <div class="scroll-area" id="main-scroll">
-        <div id="view-dashboard">
-            <center style="margin-top: 25%;">
-                <button class="main-circle-btn" onclick="handleStart()">Start</button>
-                <div id="current-category-label" style="margin-top:2rem; text-transform:uppercase; letter-spacing:4px; font-size:0.8rem; color:var(--text-dim);">Gym</div>
-            </center>
-        </div>
-
-        <div id="view-selector" class="hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-                <h2>Gym Pläne</h2>
-                <button onclick="openModal('modal-create-plan')" style="background:var(--accent); color:var(--bg-color); border:none; padding:8px 15px; border-radius:12px; font-weight:800; font-size:0.7rem; cursor:pointer;">+ NEUER PLAN</button>
+    <main class="scroll-area" id="main-scroll">
+        
+        <section id="view-dashboard">
+            <div class="hero-circle" onclick="changeView('view-selector')">
+                <div class="label">Today</div>
+                <div class="val" id="dash-gym-count">0</div>
+                <div class="label">Gym Units</div>
             </div>
-            <div id="template-list-selector"></div>
-            <center><button onclick="showView('view-history')" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:0.65rem; margin-top:1.5rem; text-transform:uppercase; letter-spacing:1px;">Logbuch öffnen</button></center>
-        </div>
 
-        <div id="view-session" class="hidden">
-            <div id="active-exercises-list"></div>
-        </div>
-
-        <div id="view-history" class="hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
-                <h2>Logbuch</h2>
-                <button onclick="showView('view-selector')" style="background:none; border:none; color:white; font-size: 1.2rem;">✕</button>
+            <h2>Tagesziele</h2>
+            <div class="health-grid">
+                <div class="stat-card c-nutri" onclick="changeView('view-health')">
+                    <h4>Kalorien</h4>
+                    <div class="val" id="dash-kcal">0</div><span class="unit">kcal</span>
+                </div>
+                <div class="stat-card c-nutri" onclick="changeView('view-health')">
+                    <h4>Protein</h4>
+                    <div class="val" id="dash-prot">0</div><span class="unit">g</span>
+                </div>
+                <div class="stat-card c-sleep" onclick="changeView('view-health')">
+                    <h4>Schlaf</h4>
+                    <div class="val" id="dash-sleep">0</div><span class="unit">Std</span>
+                </div>
+                <div class="stat-card c-water" onclick="addWater()">
+                    <h4>Wasser</h4>
+                    <div class="val" id="dash-water">0.0</div><span class="unit">Liter</span>
+                </div>
             </div>
-            <div id="history-container"></div>
-        </div>
 
-        <div id="view-placeholder" class="hidden">
-            <div class="glass-card" style="text-align:center; padding: 4rem 1rem;"><p style="color:var(--text-dim);">Coming Soon.</p></div>
+            <div class="stat-card c-cardio" style="margin-top:15px;" onclick="changeView('view-cardio')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h4>Cardio Heute</h4>
+                        <div class="val" id="dash-cardio">0 <span class="unit">min</span></div>
+                    </div>
+                    <div id="dash-cardio-type" style="font-size:0.7rem; opacity:0.5; text-transform:uppercase;">Aktivität</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-selector" class="hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>Deine Pläne</h2>
+                <button class="btn-sub" onclick="openNewPlanModal()">+ NEU</button>
+            </div>
+            <div id="plan-list-container"></div>
+        </section>
+
+        <section id="view-exercises" class="hidden">
+            <h2>Übungs-Datenbank</h2>
+            <div id="exercise-db-container"></div>
+        </section>
+
+        <section id="view-session" class="hidden">
+            <div id="session-exercises"></div>
+        </section>
+
+        <section id="view-cardio" class="hidden">
+            <h2>Cardio Tracker</h2>
+            <div class="glass-card">
+                <div class="chip-container" id="cardio-chips">
+                    <div class="chip active" onclick="selectCardioChip(this, 'Laufen')">Laufen</div>
+                    <div class="chip" onclick="selectCardioChip(this, 'Radfahren')">Radfahren</div>
+                    <div class="chip" onclick="selectCardioChip(this, 'Schwimmen')">Schwimmen</div>
+                    <div class="chip" onclick="selectCardioChip(this, 'Rudern')">Rudern</div>
+                    <div class="chip" onclick="selectCardioChip(this, 'Wandern')">Wandern</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="number" id="in-cardio-dur" placeholder="Dauer (Min)" oninput="calcCardioKcal()">
+                    <input type="number" id="in-cardio-dist" placeholder="Distanz (km)" step="0.1" oninput="calcCardioKcal()">
+                </div>
+                <div id="cardio-kcal-preview" style="margin-bottom:15px; font-size:0.8rem; color:var(--mod-cardio); font-weight:bold;">Schätzung: 0 kcal</div>
+                <textarea id="in-cardio-note" placeholder="Notizen..."></textarea>
+                <button class="btn-primary" onclick="saveCardio()">Aktivität speichern</button>
+            </div>
+        </section>
+
+        <section id="view-health" class="hidden">
+            <h2>Ernährung</h2>
+            <div class="glass-card">
+                <div style="display:flex; gap:10px;">
+                    <input type="number" id="in-kcal" placeholder="Kalorien (kcal)">
+                    <input type="number" id="in-prot" placeholder="Protein (g)">
+                </div>
+                <button class="btn-primary" onclick="saveHealth('nutri')">Update Ernährung</button>
+            </div>
+            <h2>Regeneration</h2>
+            <div class="glass-card">
+                <input type="number" id="in-sleep" placeholder="Schlafqualität (Stunden)" step="0.5">
+                <input type="number" id="in-focus" placeholder="Fokus/Meditation (Minuten)">
+                <button class="btn-primary" onclick="saveHealth('life')">Update Lifestyle</button>
+            </div>
+        </section>
+
+        <section id="view-history" class="hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>Historie</h2>
+                <button class="btn-sub" onclick="exportData()" style="font-size:0.6rem;">EXPORT JSON</button>
+            </div>
+            <div id="history-content"></div>
+        </section>
+
+        <section id="view-insights" class="hidden">
+            <h2>Muskelgruppen (Verteilung %)</h2>
+            <div class="glass-card" id="insights-muscles"></div>
+            <h2>Aktivität (30 Tage)</h2>
+            <div class="glass-card"><div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:8px;" id="insights-grid"></div></div>
+            <h2>PR Highlights</h2>
+            <div id="insights-prs"></div>
+        </section>
+
+        <section id="view-settings" class="hidden">
+            <h2>Profil & Daten</h2>
+            <div class="glass-card">
+                <label style="font-size:0.7rem; opacity:0.5; text-transform:uppercase; margin-bottom:8px; display:block;">Körpergewicht (kg) für Kcal-Rechnung</label>
+                <input type="number" id="user-weight" placeholder="z.B. 80" onchange="saveWeight()">
+            </div>
+            <button class="btn-primary" style="background:var(--loss); color:white;" onclick="requestClearData()">ALLE DATEN LÖSCHEN</button>
+        </section>
+
+    </main>
+</div>
+
+<div id="modal-plan" class="overlay hidden">
+    <div class="glass-card pop-in" style="width:100%">
+        <h3 id="plan-modal-title">PLAN EDITIEREN</h3><br>
+        <input type="text" id="plan-name" placeholder="Name (z.B. Oberkörper)">
+        <div id="modal-cat-selection" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px;"></div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="text" id="plan-ex-input" placeholder="Übung..." style="margin-bottom:0">
+            <button class="btn-sub" onclick="addExToPlanCreation()">ADD</button>
         </div>
+        <div id="plan-ex-preview" style="max-height:200px; overflow-y:auto; margin-bottom:20px;"></div>
+        <button class="btn-primary" onclick="savePlan()">SPEICHERN</button>
+        <button class="btn-sub" style="width:100%; margin-top:10px;" onclick="closeModal('modal-plan')">ABBRECHEN</button>
     </div>
+</div>
 
-    <div id="modal-create-plan" class="overlay hidden">
-        <div class="glass-card pop-in" style="width: 100%; max-width: 400px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-                <h3 style="letter-spacing:2px; font-size:0.9rem;">NEUEN PLAN ERSTELLEN</h3>
-                <button onclick="closeModal('modal-create-plan')" style="background:none; border:none; color:white; font-size:1.2rem;">✕</button>
-            </div>
-            <input type="text" id="plan-name-input" placeholder="Name des Plans">
-            <div style="display:flex; gap:10px;"><input type="text" id="ex-input" placeholder="Übung..."><button onclick="addExToTempList()" style="padding:0 15px; border-radius:12px; border:none; background:white; font-weight:bold;">+</button></div>
-            <div id="temp-ex-list" style="margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px;"></div>
-            <button class="btn-primary" onclick="saveFullPlan()">PLAN SPEICHERN</button>
-        </div>
+<div id="modal-summary" class="overlay hidden">
+    <div class="glass-card pop-in" style="width:100%">
+        <h2 style="color:white; margin-top:0; letter-spacing:2px;">SESSION BEENDET</h2>
+        <div id="summary-details"></div>
+        <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('modal-summary')">WEITER</button>
     </div>
+</div>
 
-    <div id="modal-edit-plan" class="overlay hidden">
-        <div class="glass-card pop-in" style="width: 100%; max-width: 400px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-                <h3 style="letter-spacing:2px; font-size:0.9rem;">PLAN BEARBEITEN</h3>
-                <button onclick="closeModal('modal-edit-plan')" style="background:none; border:none; color:white; font-size:1.2rem;">✕</button>
-            </div>
-            <input type="text" id="edit-plan-name-input" placeholder="Name des Plans">
-            <div style="display:flex; gap:10px;"><input type="text" id="edit-ex-input" placeholder="Übung hinzufügen..."><button onclick="addExToEditList()" style="padding:0 15px; border-radius:12px; border:none; background:white; font-weight:bold;">+</button></div>
-            <div id="edit-ex-list" style="margin: 15px 0; display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto;"></div>
-            <button class="btn-primary" id="save-edit-plan-btn">ÄNDERUNGEN SPEICHERN</button>
-        </div>
-    </div>
-
-    <div id="modal-delete" class="overlay hidden"><div class="glass-card pop-in" style="width: 320px; text-align: center;"><h3 style="color:var(--loss);">Löschen?</h3><div style="display: flex; gap: 10px; margin-top:1.5rem;"><button class="btn-primary" style="background:none; border:1px solid var(--glass-border); color:white;" onclick="closeModal('modal-delete')">Abbrechen</button><button class="btn-primary" id="confirm-delete-btn" style="background:var(--loss);">Löschen</button></div></div></div>
-    <div id="modal-confirm" class="overlay hidden"><div class="glass-card pop-in" style="width: 320px; text-align: center;"><h3>Workout beenden?</h3><div style="display: flex; gap: 10px; margin-top:1.5rem;"><button class="btn-primary" style="background:none; border:1px solid var(--glass-border); color:white;" onclick="closeModal('modal-confirm')">Nein</button><button class="btn-primary" onclick="processEndSession()">Ja, Fertig</button></div></div></div>
-
-    <div id="summary-overlay" class="overlay hidden">
-        <div class="glass-card pop-in" style="width: 100%; max-width: 380px; text-align: center;">
-            <h1 style="margin-bottom: 2rem;">ZUSAMMENFASSUNG</h1>
-            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-                <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:20px; flex:1;"><small>Volumen</small><br><strong id="sum-vol" style="font-size: 1.2rem;">-</strong></div>
-                <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:20px; flex:1;"><small>Dauer</small><br><strong id="sum-time" style="font-size: 1.2rem;">-</strong></div>
-            </div>
-            <div id="sum-ex-details" style="text-align: left; max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; margin-bottom: 2rem;"></div>
-            <button class="btn-primary" onclick="location.reload()">DASHBOARD</button>
+<div id="modal-delete" class="overlay hidden">
+    <div class="glass-card pop-in" style="text-align:center;">
+        <h3 style="letter-spacing:2px;">WIRKLICH LÖSCHEN?</h3>
+        <p style="opacity:0.5; margin:15px 0;">Dies kann nicht rückgängig gemacht werden.</p>
+        <div style="display:flex; gap:10px;">
+            <button class="btn-primary" style="background:var(--loss); color:white;" id="confirm-delete-btn">LÖSCHEN</button>
+            <button class="btn-sub" style="flex:1" onclick="closeModal('modal-delete')">NEIN</button>
         </div>
     </div>
 </div>
 
 <script>
-    let currentCategory = 'Gym';
-    let templates = JSON.parse(localStorage.getItem('ct_templates')) || [];
-    let history = JSON.parse(localStorage.getItem('ct_history')) || [];
-    let tempExercises = [], editTempExercises = [], currentEditPlanId = null;
-    let currentSession = null, timerInt, secs = 0, planToDelete = null;
+    /* --- STATE --- */
+    let coreData = JSON.parse(localStorage.getItem('coretrack_v4_8_data')) || {
+        plans: [], history: [], health: {}, catalog: {}, weight: 80
+    };
 
-    const menu = document.getElementById('side-menu');
-    let touchStartX = 0;
-    menu.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-    menu.addEventListener('touchend', e => { if (touchStartX - e.changedTouches[0].screenX > 50) toggleMenu(); });
+    let activeSession = null;
+    let timerInterval, clockSecs = 0;
+    let restInterval, restSecs = 0;
+    let tempExList = [];
+    let editingPlanId = null;
+    let currentCategory = "Brust";
+    let selectedCardioType = "Laufen";
+    let deleteTarget = null;
 
-    function toggleMenu() { menu.classList.toggle('open'); }
-    function switchCategory(cat) {
-        currentCategory = cat;
-        document.getElementById('current-category-label').innerText = cat;
-        document.querySelectorAll('.menu-item').forEach(i => i.classList.toggle('active', i.dataset.id === cat));
-        toggleMenu(); showView(cat === 'Gym' ? 'view-dashboard' : 'view-placeholder');
-    }
+    const CATEGORIES = ["Brust", "Rücken", "Beine", "Schultern", "Arme"];
+    const CAT_COLORS = { "Brust": "var(--cat-brust)", "Rücken": "var(--cat-ruecken)", "Beine": "var(--cat-beine)", "Schultern": "var(--cat-schultern)", "Arme": "var(--cat-arme)", "Gym": "var(--cat-gym)" };
 
-    function showView(id) {
-        document.querySelectorAll('.scroll-area > div').forEach(v => v.classList.add('hidden'));
-        document.getElementById('fixed-timer-zone').classList.add('hidden');
-        document.getElementById(id).classList.remove('hidden');
-        if(id === 'view-session') document.getElementById('fixed-timer-zone').classList.remove('hidden');
-        if(id === 'view-selector') renderTemplates();
-        if(id === 'view-history') renderHistory();
-    }
-
-    function handleStart() { if(currentCategory === 'Gym') showView('view-selector'); }
+    /* --- UTILS --- */
+    function save() { localStorage.setItem('coretrack_v4_8_data', JSON.stringify(coreData)); }
+    function getToday() { return new Date().toISOString().split('T')[0]; }
+    function toggleMenu() { document.getElementById('side-menu').classList.toggle('open'); }
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    function addExToTempList() {
-        const val = document.getElementById('ex-input').value;
-        if(!val) return;
-        tempExercises.push(val);
-        document.getElementById('ex-input').value = '';
-        document.getElementById('temp-ex-list').innerHTML = tempExercises.map(ex => `<span style="background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:15px; font-size:0.75rem;">${ex}</span>`).join('');
+    function changeView(id) {
+        document.querySelectorAll('.scroll-area > section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+        document.getElementById('live-session-bar').classList.add('hidden');
+        document.getElementById('main-header').classList.remove('hidden');
+        
+        document.querySelectorAll('.menu-item').forEach(m => {
+            m.classList.remove('active');
+            if(m.dataset.view === id) m.classList.add('active');
+        });
+
+        if(id === 'view-session') {
+            document.getElementById('live-session-bar').classList.remove('hidden');
+            document.getElementById('main-header').classList.add('hidden');
+        }
+        
+        if(id === 'view-dashboard') renderDashboard();
+        if(id === 'view-selector') renderPlans();
+        if(id === 'view-history') renderHistory();
+        if(id === 'view-insights') renderInsights();
+        if(id === 'view-exercises') renderExerciseDB();
+        if(id === 'view-health') loadHealthInputs();
+        if(id === 'view-settings') document.getElementById('user-weight').value = coreData.weight;
+        
+        if(document.getElementById('side-menu').classList.contains('open')) toggleMenu();
+        document.getElementById('main-scroll').scrollTop = 0;
     }
 
-    function saveFullPlan() {
-        const name = document.getElementById('plan-name-input').value;
-        if(!name || tempExercises.length === 0) return;
-        templates.push({ id: Date.now(), name, exercises: tempExercises });
-        localStorage.setItem('ct_templates', JSON.stringify(templates));
-        tempExercises = []; renderTemplates();
-        closeModal('modal-create-plan');
+    /* --- PLAN EDITOR --- */
+    function openNewPlanModal() {
+        editingPlanId = null; tempExList = [];
+        document.getElementById('plan-name').value = '';
+        document.getElementById('plan-modal-title').innerText = "NEUER PLAN";
+        renderExPreview(); renderCatSelection(); openModal('modal-plan');
     }
 
-    function renderTemplates() {
-        const list = document.getElementById('template-list-selector');
-        list.innerHTML = templates.map(t => `
-            <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;" onclick="startSession(${t.id})">
-                <div style="flex:1;"><strong>${t.name}</strong><br><small style="opacity:0.5">${t.exercises.length} Übungen</small></div>
-                <div style="display:flex; gap:10px;">
-                    <button class="delete-btn" style="color:var(--text-dim);" onclick="event.stopPropagation(); openEditPlan(${t.id})">Edit</button>
-                    <button class="delete-btn" onclick="event.stopPropagation(); triggerDelete(${t.id})">Löschen</button>
+    function openEditPlan(id) {
+        editingPlanId = id;
+        const plan = coreData.plans.find(p => p.id === id);
+        document.getElementById('plan-name').value = plan.name;
+        document.getElementById('plan-modal-title').innerText = "PLAN EDITIEREN";
+        tempExList = plan.exercises.map(ex => ({ name: ex, cat: coreData.catalog[ex] || 'Gym' }));
+        renderExPreview(); renderCatSelection(); openModal('modal-plan');
+    }
+
+    function renderCatSelection() {
+        document.getElementById('modal-cat-selection').innerHTML = CATEGORIES.map(c => `
+            <div class="cat-badge" 
+                 style="cursor:pointer; background:${currentCategory === c ? CAT_COLORS[c] : 'transparent'}; border-color:${CAT_COLORS[c]}; color:${currentCategory === c ? 'black' : CAT_COLORS[c]}" 
+                 onclick="currentCategory='${c}'; renderCatSelection()">
+                ${c}
+            </div>`).join('');
+    }
+
+    function addExToPlanCreation() {
+        const name = document.getElementById('plan-ex-input').value;
+        if(!name) return;
+        tempExList.push({ name, cat: currentCategory });
+        coreData.catalog[name] = currentCategory;
+        document.getElementById('plan-ex-input').value = '';
+        renderExPreview();
+    }
+
+    function renderExPreview() {
+        document.getElementById('plan-ex-preview').innerHTML = tempExList.map((e, i) => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:10px; border-radius:15px; margin-bottom:8px;">
+                <span>${e.name} <small style="color:${CAT_COLORS[e.cat]}">${e.cat}</small></span>
+                <button class="btn-sub" style="color:var(--loss); padding:5px 10px;" onclick="tempExList.splice(${i},1); renderExPreview()">LÖSCHEN</button>
+            </div>`).join('');
+    }
+
+    function savePlan() {
+        const name = document.getElementById('plan-name').value;
+        if(!name || tempExList.length === 0) return;
+        if(editingPlanId) {
+            const plan = coreData.plans.find(p => p.id === editingPlanId);
+            plan.name = name; plan.exercises = tempExList.map(e => e.name);
+        } else {
+            coreData.plans.push({ id: Date.now(), name, exercises: tempExList.map(e => e.name) });
+        }
+        save(); closeModal('modal-plan'); renderPlans();
+    }
+
+    function renderPlans() {
+        const cont = document.getElementById('plan-list-container');
+        cont.innerHTML = coreData.plans.map(p => `
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div onclick="startGymSession(${p.id})" style="flex:1; cursor:pointer;">
+                        <strong>${p.name}</strong><br>
+                        <small style="opacity:0.4">${p.exercises.length} Übungen</small>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-sub" onclick="openEditPlan(${p.id})">EDIT</button>
+                        <button class="btn-sub" onclick="requestDeletePlan(${p.id})" style="color:var(--loss)">LÖSCHEN</button>
+                    </div>
                 </div>
             </div>`).join('');
     }
 
-    function openEditPlan(id) {
-        currentEditPlanId = id;
-        const plan = templates.find(t => t.id === id);
-        document.getElementById('edit-plan-name-input').value = plan.name;
-        editTempExercises = [...plan.exercises];
-        renderEditExList();
-        openModal('modal-edit-plan');
-        document.getElementById('save-edit-plan-btn').onclick = () => {
-            const newName = document.getElementById('edit-plan-name-input').value;
-            const planIdx = templates.findIndex(t => t.id === currentEditPlanId);
-            templates[planIdx].name = newName;
-            templates[planIdx].exercises = editTempExercises;
-            localStorage.setItem('ct_templates', JSON.stringify(templates));
-            renderTemplates(); closeModal('modal-edit-plan');
-        };
-    }
-
-    function addExToEditList() {
-        const val = document.getElementById('edit-ex-input').value;
-        if(val) { editTempExercises.push(val); document.getElementById('edit-ex-input').value = ''; renderEditExList(); }
-    }
-
-    function removeExFromEditList(idx) { editTempExercises.splice(idx, 1); renderEditExList(); }
-
-    function renderEditExList() {
-        const cont = document.getElementById('edit-ex-list');
-        cont.innerHTML = editTempExercises.map((ex, idx) => `<div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.05); padding:10px; border-radius:12px; margin-bottom:5px;"><span>${ex}</span><button onclick="removeExFromEditList(${idx})" style="background:none; border:none; color:var(--loss);">✕</button></div>`).join('');
-    }
-
-    function triggerDelete(id) {
-        planToDelete = id; openModal('modal-delete');
+    /* --- DELETE MODAL --- */
+    function requestDeletePlan(id) {
+        deleteTarget = id;
         document.getElementById('confirm-delete-btn').onclick = () => {
-            templates = templates.filter(t => t.id !== planToDelete);
-            localStorage.setItem('ct_templates', JSON.stringify(templates));
-            renderTemplates(); closeModal('modal-delete');
+            coreData.plans = coreData.plans.filter(p => p.id !== deleteTarget);
+            save(); renderPlans(); closeModal('modal-delete');
         };
+        openModal('modal-delete');
     }
 
-    function startSession(id) {
-        const t = templates.find(x => x.id === id);
-        currentSession = { name: t.name, logs: {}, startTime: Date.now() };
-        document.getElementById('session-plan-title').innerText = t.name;
-        const list = document.getElementById('active-exercises-list');
-        list.innerHTML = t.exercises.map(ex => {
-            const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
-            const lastMaxWeight = lastData.sets && lastData.sets.length > 0 ? Math.max(...lastData.sets.map(s => s.w)) : 0;
-            return `<div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><h3>${ex}</h3><div style="font-size:0.65rem; color:var(--text-dim); text-align:right;">LETZTES MAX:<br><strong>${lastMaxWeight}kg</strong></div></div>
-                <div id="sets-cont-${ex.replace(/\s/g,'')}"></div>
-                <button onclick="addSetRow('${ex}')" style="width:100%; background:rgba(255,255,255,0.05); border:1px dashed var(--glass-border); color:white; padding:12px; border-radius:15px; margin-top:10px; font-size:0.8rem;">+ SATZ HINZUFÜGEN</button>
-                <div id="vol-info-${ex.replace(/\s/g,'')}" style="margin-top:15px; font-size:0.75rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span>Volumen: <strong id="vol-val-${ex.replace(/\s/g,'')}">0</strong> kg</span><span id="live-${ex.replace(/\s/g,'')}"></span></div>
-                <textarea placeholder="Notiz..." style="margin-top:10px;" oninput="updateNote('${ex}', this.value)"></textarea>
+    function requestClearData() {
+        document.getElementById('confirm-delete-btn').onclick = () => { localStorage.clear(); location.reload(); };
+        openModal('modal-delete');
+    }
+
+    /* --- GYM ENGINE --- */
+    function startGymSession(id) {
+        const plan = coreData.plans.find(p => p.id === id);
+        activeSession = { id: Date.now(), type: 'gym', name: plan.name, logs: {}, startTime: Date.now() };
+        document.getElementById('active-plan-name').innerText = plan.name;
+        document.getElementById('session-exercises').innerHTML = plan.exercises.map(ex => {
+            const lastSession = coreData.history.slice().reverse().find(h => h.logs && h.logs[ex]);
+            const lastMax = lastSession ? Math.max(...lastSession.logs[ex].map(s => s.w)) : 0;
+            const exId = ex.replace(/\s/g, '');
+            const cat = coreData.catalog[ex] || 'Gym';
+
+            return `
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">
+                    <div>
+                        <strong style="font-size:1rem;">${ex}</strong><br>
+                        <span class="cat-badge" style="border-color:${CAT_COLORS[cat]}; color:${CAT_COLORS[cat]}; margin-top:5px;">${cat}</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <small style="opacity:0.3; font-size:0.6rem;">BEST</small><br>
+                        <strong style="color:var(--gain); font-size:1rem;">${lastMax}kg</strong>
+                    </div>
+                </div>
+                <div id="sets-container-${exId}"></div>
+                <button class="btn-sub" style="width:100%; margin-top:15px;" onclick="addSetToExercise('${ex}')">+ SATZ</button>
+                <div class="timer-strip">
+                    <button class="t-btn" onclick="startRest(60)">60s</button>
+                    <button class="t-btn" onclick="startRest(90)">90s</button>
+                    <button class="t-btn" onclick="startRest(120)">120s</button>
+                    <div class="t-display" id="rest-timer-${exId}">0:00</div>
+                </div>
             </div>`;
         }).join('');
-        showView('view-session');
-        secs = 0; timerInt = setInterval(() => { secs++; document.getElementById('session-timer').innerText = `${Math.floor(secs/60).toString().padStart(2,'0')}:${(secs%60).toString().padStart(2,'0')}`; }, 1000);
+
+        clockSecs = 0;
+        timerInterval = setInterval(() => {
+            clockSecs++;
+            const m = Math.floor(clockSecs/60).toString().padStart(2,'0');
+            const s = (clockSecs%60).toString().padStart(2,'0');
+            document.getElementById('session-clock').innerText = `${m}:${s}`;
+        }, 1000);
+        changeView('view-session');
     }
 
-    function addSetRow(ex) {
-        if(!currentSession.logs[ex]) currentSession.logs[ex] = {sets:[], note:''};
-        const sets = currentSession.logs[ex].sets;
-        const setIdx = sets.length;
-        const prevW = setIdx > 0 ? sets[setIdx-1].w : 0;
-        const prevR = setIdx > 0 ? sets[setIdx-1].r : 0;
-        sets.push({ w: prevW, r: prevR });
-        
-        const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
-        const lastSet = lastData.sets && lastData.sets[setIdx] ? lastData.sets[setIdx] : null;
-        let setDiffHtml = "";
-        if(lastSet) {
-            const lastVol = lastSet.w * lastSet.r;
-            const currentVol = prevW * prevR;
-            const diff = lastVol > 0 ? (((currentVol - lastVol) / lastVol) * 100).toFixed(0) : 0;
-            setDiffHtml = `<span id="set-diff-cont-${ex.replace(/\s/g,'')}-${setIdx}" style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
-        }
-
-        const cont = document.getElementById(`sets-cont-${ex.replace(/\s/g,'')}`);
+    function addSetToExercise(ex) {
+        if(!activeSession.logs[ex]) activeSession.logs[ex] = [];
+        const idx = activeSession.logs[ex].length;
+        activeSession.logs[ex].push({ w: 0, r: 0 });
+        const exId = ex.replace(/\s/g, '');
         const div = document.createElement('div');
         div.className = 'set-row';
         div.innerHTML = `
-            <div class="set-number">${setIdx+1}</div>
-            <input type="number" placeholder="KG" value="${prevW > 0 ? prevW : ''}" oninput="updateSetData('${ex}', ${setIdx}, 'w', this.value)" style="margin-bottom:0; flex:2;">
-            <input type="number" placeholder="REPS" value="${prevR > 0 ? prevR : ''}" oninput="updateSetData('${ex}', ${setIdx}, 'r', this.value)" style="margin-bottom:0; flex:1;">
-            <div style="font-size:0.6rem; width:45px; text-align:right; opacity:0.8;">
-                <span id="set-vol-${ex.replace(/\s/g,'')}-${setIdx}">${prevW * prevR}</span><br>
-                <span id="set-diff-area-${ex.replace(/\s/g,'')}-${setIdx}">${setDiffHtml}</span>
+            <div class="set-num">${idx+1}</div>
+            <input type="number" placeholder="kg" style="margin-bottom:0; flex:2;" oninput="updateActiveSet('${ex}',${idx},'w',this.value)">
+            <input type="number" placeholder="reps" style="margin-bottom:0; flex:1.5;" oninput="updateActiveSet('${ex}',${idx},'r',this.value)">
+            <div id="diff-${exId}-${idx}" style="min-width:45px; text-align:right; font-size:0.7rem; font-weight:800;"></div>
+        `;
+        document.getElementById(`sets-container-${exId}`).appendChild(div);
+    }
+
+    function updateActiveSet(ex, idx, field, val) {
+        activeSession.logs[ex][idx][field] = parseFloat(val) || 0;
+        const exId = ex.replace(/\s/g, '');
+        const lastSession = coreData.history.slice().reverse().find(h => h.logs && h.logs[ex] && h.logs[ex][idx]);
+        const diffEl = document.getElementById(`diff-${exId}-${idx}`);
+        if(lastSession && activeSession.logs[ex][idx].w && activeSession.logs[ex][idx].r) {
+            const lastVol = lastSession.logs[ex][idx].w * lastSession.logs[ex][idx].r;
+            const curVol = activeSession.logs[ex][idx].w * activeSession.logs[ex][idx].r;
+            if(lastVol > 0) {
+                const diff = (((curVol - lastVol) / lastVol) * 100).toFixed(0);
+                diffEl.innerHTML = `<span style="color:${diff >= 0 ? 'var(--gain)' : 'var(--loss)'}">${diff >= 0 ? '+' : ''}${diff}%</span>`;
+            }
+        }
+    }
+
+    function startRest(s) {
+        clearInterval(restInterval); restSecs = s; updateRestDisplay();
+        restInterval = setInterval(() => {
+            restSecs--; if(restSecs <= 0) { clearInterval(restInterval); if(window.navigator.vibrate) window.navigator.vibrate([300, 100, 300]); }
+            updateRestDisplay();
+        }, 1000);
+    }
+    function updateRestDisplay() {
+        const time = `${Math.floor(restSecs/60)}:${(restSecs%60).toString().padStart(2, '0')}`;
+        document.querySelectorAll('.t-display').forEach(d => d.innerText = time);
+    }
+
+    function confirmEndSession() {
+        clearInterval(timerInterval);
+        activeSession.duration = document.getElementById('session-clock').innerText;
+        activeSession.endTime = Date.now();
+        
+        let totalVol = 0; let totalSets = 0; let bestEx = { name: '-', weight: 0 };
+        for(let ex in activeSession.logs) {
+            activeSession.logs[ex].forEach(s => {
+                totalVol += (s.w * s.r); totalSets++;
+                if(s.w > bestEx.weight) { bestEx.name = ex; bestEx.weight = s.w; }
+            });
+        }
+        document.getElementById('summary-details').innerHTML = `
+            <div class="summary-stat"><span>Dauer</span><strong>${activeSession.duration}</strong></div>
+            <div class="summary-stat"><span>Volumen</span><strong>${totalVol.toLocaleString()} kg</strong></div>
+            <div class="summary-stat"><span>Sätze</span><strong>${totalSets}</strong></div>
+            <div class="summary-stat"><span>Stärkste Übung</span><strong>${bestEx.weight}kg (${bestEx.name})</strong></div>
+        `;
+        coreData.history.push(activeSession);
+        save(); openModal('modal-summary'); activeSession = null; changeView('view-dashboard');
+    }
+
+    /* --- LIFESTYLE & CARDIO --- */
+    function selectCardioChip(el, type) {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active'); selectedCardioType = type; calcCardioKcal();
+    }
+    function calcCardioKcal() {
+        const dist = parseFloat(document.getElementById('in-cardio-dist').value) || 0;
+        const dur = parseFloat(document.getElementById('in-cardio-dur').value) || 0;
+        const weight = coreData.weight || 80;
+        let kcal = 0;
+        if(selectedCardioType === 'Laufen') kcal = dist * weight * 1.036;
+        else if(selectedCardioType === 'Radfahren') kcal = dist * weight * 0.35;
+        else kcal = dur * 7;
+        document.getElementById('cardio-kcal-preview').innerText = `Schätzung: ${Math.round(kcal)} kcal`;
+    }
+    function saveCardio() {
+        const dur = parseFloat(document.getElementById('in-cardio-dur').value) || 0;
+        if(dur === 0) return;
+        coreData.history.push({ id: Date.now(), type: 'cardio', name: selectedCardioType, duration: dur, distance: parseFloat(document.getElementById('in-cardio-dist').value)||0, endTime: Date.now() });
+        save(); changeView('view-dashboard');
+    }
+    function addWater() {
+        const day = getToday(); if(!coreData.health[day]) coreData.health[day] = { kcal: 0, prot: 0, sleep: 0, water: 0 };
+        coreData.health[day].water += 0.25; save(); renderDashboard();
+    }
+    function saveHealth(mode) {
+        const day = getToday(); if(!coreData.health[day]) coreData.health[day] = { kcal: 0, prot: 0, sleep: 0, water: 0 };
+        if(mode === 'nutri') { coreData.health[day].kcal = parseFloat(document.getElementById('in-kcal').value) || 0; coreData.health[day].prot = parseFloat(document.getElementById('in-prot').value) || 0; }
+        else { coreData.health[day].sleep = parseFloat(document.getElementById('in-sleep').value) || 0; coreData.health[day].focus = parseFloat(document.getElementById('in-focus').value) || 0; }
+        save(); renderDashboard();
+    }
+    function loadHealthInputs() {
+        const log = coreData.health[getToday()] || {};
+        document.getElementById('in-kcal').value = log.kcal || ''; document.getElementById('in-prot').value = log.prot || '';
+        document.getElementById('in-sleep').value = log.sleep || ''; document.getElementById('in-focus').value = log.focus || '';
+    }
+
+    /* --- INSIGHTS & DB --- */
+    function renderExerciseDB() {
+        const sorted = Object.entries(coreData.catalog).sort((a,b) => a[1].localeCompare(b[1]));
+        document.getElementById('exercise-db-container').innerHTML = sorted.map(([name, cat]) => `
+            <div class="glass-card" style="padding:1rem; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                <strong>${name}</strong><span class="cat-badge" style="border-color:${CAT_COLORS[cat]}; color:${CAT_COLORS[cat]}">${cat}</span>
+            </div>`).join('');
+    }
+
+    function renderInsights() {
+        const muscles = { Brust: 0, Rücken: 0, Beine: 0, Schultern: 0, Arme: 0 };
+        let totalOverallVol = 0;
+        coreData.history.forEach(h => { if(h.logs) for(let ex in h.logs) { const cat = coreData.catalog[ex] || "Gym"; const vol = h.logs[ex].reduce((acc, s) => acc + (s.w * s.r), 0); if(muscles[cat] !== undefined) { muscles[cat] += vol; totalOverallVol += vol; } } });
+
+        document.getElementById('insights-muscles').innerHTML = Object.entries(muscles).map(([n, v]) => {
+            const perc = totalOverallVol > 0 ? (v / totalOverallVol) * 100 : 0;
+            return `
+            <div class="bar-wrap">
+                <div class="bar-info"><span>${n}</span><span>${perc.toFixed(1)}%</span></div>
+                <div class="bar-outer"><div class="bar-inner" style="width:${perc}%; background:${CAT_COLORS[n]}"></div></div>
             </div>`;
-        cont.appendChild(div);
-        calcExVolume(ex);
-    }
+        }).join('');
 
-    function updateSetData(ex, idx, field, val) {
-        const value = parseFloat(val) || 0;
-        currentSession.logs[ex].sets[idx][field] = value;
-        const set = currentSession.logs[ex].sets[idx];
-        const currentVol = set.w * set.r;
-        document.getElementById(`set-vol-${ex.replace(/\s/g,'')}-${idx}`).innerText = currentVol.toLocaleString();
-        
-        const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
-        const lastSet = lastData.sets && lastData.sets[idx] ? lastData.sets[idx] : null;
-        if(lastSet) {
-            const lastVol = lastSet.w * lastSet.r;
-            const diff = lastVol > 0 ? (((currentVol - lastVol) / lastVol) * 100).toFixed(0) : 0;
-            document.getElementById(`set-diff-area-${ex.replace(/\s/g,'')}-${idx}`).innerHTML = `<span style="font-size:0.55rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'+':''}${diff}%</span>`;
-        }
-        calcExVolume(ex);
-    }
-
-    function calcExVolume(ex) {
-        const log = currentSession.logs[ex];
-        const currentExVol = log.sets.reduce((sum, s) => sum + (s.w * s.r), 0);
-        document.getElementById(`vol-val-${ex.replace(/\s/g,'')}`).innerText = currentExVol.toLocaleString();
-        
-        const lastData = history.slice().reverse().find(h => h.logs[ex])?.logs[ex] || {sets:[]};
-        const lastExVol = lastData.sets ? lastData.sets.reduce((sum, s) => sum + (s.w * s.r), 0) : 0;
-        const cont = document.getElementById(`live-${ex.replace(/\s/g,'')}`);
-        if(cont && lastExVol > 0) {
-            const diff = (((currentExVol - lastExVol) / lastExVol) * 100).toFixed(1);
-            cont.innerHTML = `<span style="color:${diff>=0?'var(--gain)':'var(--loss)'}">Prog: ${diff>=0?'+':''}${diff}%</span>`;
+        const grid = document.getElementById('insights-grid'); grid.innerHTML = '';
+        const now = new Date();
+        for(let i=27; i>=0; i--) {
+            const d = new Date(); d.setDate(now.getDate() - i); const dStr = d.toISOString().split('T')[0];
+            const active = coreData.history.some(h => new Date(h.endTime).toISOString().split('T')[0] === dStr);
+            grid.innerHTML += `<div style="aspect-ratio:1; border-radius:4px; background:${active ? 'white' : 'rgba(255,255,255,0.05)'}"></div>`;
         }
     }
 
-    function updateNote(ex, val) { currentSession.logs[ex].note = val; }
+    /* --- DASHBOARD & HISTORY --- */
+    function renderDashboard() {
+        const today = getToday(); const health = coreData.health[today] || { kcal: 0, prot: 0, sleep: 0, water: 0 };
+        const gymToday = coreData.history.filter(h => h.type === 'gym' && new Date(h.endTime).toISOString().split('T')[0] === today);
+        const cardioToday = coreData.history.filter(h => h.type === 'cardio' && new Date(h.endTime).toISOString().split('T')[0] === today);
 
-    function processEndSession() {
-        clearInterval(timerInt);
-        let totalVol = 0; let detailHTML = "";
-        const sessionToSave = { ...currentSession, endTime: Date.now(), duration: document.getElementById('session-timer').innerText };
-        
-        for(let key in sessionToSave.logs) {
-            const exVol = sessionToSave.logs[key].sets.reduce((sum, s) => sum + (s.w * s.r), 0);
-            totalVol += exVol;
-            if(exVol > 0) detailHTML += `<div style="margin-bottom:8px;">• ${key}: <strong>${exVol.toLocaleString()} kg</strong></div>`;
-        }
-
-        const lastSessionSamePlan = history.slice().reverse().find(h => h.name === sessionToSave.name);
-        let totalDiffHtml = "";
-        if(lastSessionSamePlan) {
-            const lastTotalVol = Object.values(lastSessionSamePlan.logs).reduce((sum, ex) => sum + ex.sets.reduce((sSum, s) => sSum + (s.w * s.r), 0), 0);
-            const diff = lastTotalVol > 0 ? (((totalVol - lastTotalVol) / lastTotalVol) * 100).toFixed(1) : 0;
-            totalDiffHtml = `<br><span style="font-size:0.8rem; color:${diff>=0?'var(--gain)':'var(--loss)'}">${diff>=0?'▲': '▼'} ${diff>=0?'+':''}${diff}% vs. letztes Mal</span>`;
-        }
-
-        document.getElementById('sum-vol').innerHTML = totalVol.toLocaleString() + " kg" + totalDiffHtml;
-        document.getElementById('sum-time').innerText = sessionToSave.duration;
-        document.getElementById('sum-ex-details').innerHTML = detailHTML || "Keine Daten.";
-        history.push(sessionToSave); localStorage.setItem('ct_history', JSON.stringify(history));
-        closeModal('modal-confirm'); openModal('summary-overlay');
+        document.getElementById('dash-gym-count').innerText = gymToday.length;
+        document.getElementById('dash-kcal').innerText = health.kcal;
+        document.getElementById('dash-prot').innerText = health.prot;
+        document.getElementById('dash-sleep').innerText = health.sleep;
+        document.getElementById('dash-water').innerText = health.water.toFixed(2);
+        document.getElementById('dash-cardio').innerText = cardioToday.reduce((acc, curr) => acc + curr.duration, 0);
     }
 
     function renderHistory() {
-        const container = document.getElementById('history-container');
-        if(!history.length) { container.innerHTML = `<div class="glass-card">Logbuch leer.</div>`; return; }
-        container.innerHTML = history.slice().reverse().map(h => {
-            let exHtml = "";
-            for(let ex in h.logs) {
-                const log = h.logs[ex];
-                if(!log.sets || log.sets.length === 0) continue;
-                const exVol = log.sets.reduce((sum, s) => sum + (s.w * s.r), 0);
-                exHtml += `<div class="history-ex-box">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>${ex}</strong><span style="opacity:0.6; font-size:0.7rem;">Vol: ${exVol.toLocaleString()}kg</span></div>
-                    <div style="display:flex; flex-wrap:wrap; gap:5px;">
-                        ${log.sets.map(s => `<span style="background:rgba(255,255,255,0.1); padding:3px 8px; border-radius:5px; font-size:0.7rem;">${s.w}kg x ${s.r}</span>`).join('')}
-                    </div>
-                    ${log.note ? `<div style="font-size:0.7rem; opacity:0.5; margin-top:8px; font-style:italic;">${log.note}</div>` : ''}
+        const cont = document.getElementById('history-content');
+        cont.innerHTML = coreData.history.slice().reverse().map(h => {
+            const dateStr = new Date(h.endTime).toLocaleDateString();
+            if(h.type === 'gym') {
+                const vol = Object.values(h.logs).reduce((acc, ex) => acc + ex.reduce((sacc, s) => sacc + (s.w * s.r), 0), 0);
+                return `<div class="history-card">
+                    <div style="display:flex; justify-content:space-between;"><strong style="color:var(--info)">GYM</strong><small>${dateStr}</small></div>
+                    <div style="font-size:1.1rem; font-weight:900; margin:10px 0;">${h.name}</div>
+                    <div style="margin-bottom:10px;">${Object.keys(h.logs).map(ex => `<span class="log-tag">${ex}</span>`).join('')}</div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; opacity:0.5;"><span>DAUER: ${h.duration}</span><span>VOL: ${vol.toLocaleString()}kg</span></div>
+                </div>`;
+            } else {
+                return `<div class="history-card">
+                    <div style="display:flex; justify-content:space-between;"><strong style="color:var(--mod-cardio)">CARDIO</strong><small>${dateStr}</small></div>
+                    <div style="font-size:1.1rem; font-weight:900; margin:10px 0;">${h.name}</div>
+                    <small style="opacity:0.5">${h.duration} min | ${h.distance} km</small>
                 </div>`;
             }
-            return `<div class="glass-card"><div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:5px;"><strong>${h.name}</strong><small style="opacity:0.5;">${new Date(h.startTime).toLocaleDateString()}</small></div>${exHtml}</div>`;
         }).join('');
     }
-    
-        window.addEventListener("load", () => {
-     // nach 1.2 Sekunden Startbildschirm zeigen
-     setTimeout(() => {
-        const splash = document.getElementById("splash-screen");
-        splash.classList.add("hide");
-        setTimeout(() => splash.remove(), 600);
-    }, 1200);
-    });
 
-    renderTemplates();
-    
+    function exportData() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(coreData));
+        const a = document.createElement('a'); a.setAttribute("href", dataStr); a.setAttribute("download", "coretrack_backup.json"); a.click();
+    }
+    function saveWeight() { coreData.weight = parseFloat(document.getElementById('user-weight').value) || 80; save(); }
+
+    document.addEventListener('DOMContentLoaded', () => { renderDashboard(); });
 </script>
 </body>
 </html>
