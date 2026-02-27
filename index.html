@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoreTrack Pro | Absolute Elite V4.8</title>
+    <title>CoreTrack Pro | Absolute Elite V4.8.2</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CoreTrack">
+    
+    <link rel="apple-touch-icon" href="c.png">
+    <link rel="icon" type="image/png" href="c.png">
+    
     <meta name="theme-color" content="#050a10">
 
     <style>
@@ -108,6 +113,7 @@
             padding: 18px; color: white; border-radius: 18px; width: 100%; 
             margin-bottom: 15px; font-size: 1rem; outline: none; transition: 0.3s;
         }
+        input:focus { border-color: white; background: rgba(0,0,0,0.5); }
         
         .btn-primary { 
             background: white; color: black; border: none; padding: 1.2rem; 
@@ -197,7 +203,7 @@
     <div class="menu-item" data-view="view-history" onclick="changeView('view-history')">Logbuch</div>
     <div class="menu-item" data-view="view-insights" onclick="changeView('view-insights')">Einblicke</div>
     <div class="menu-item" data-view="view-settings" onclick="changeView('view-settings')">Einstellungen</div>
-    <div style="margin-top: auto; opacity: 0.2; font-size: 0.6rem; letter-spacing: 2px;">CORETRACK ELITE V4.8.0</div>
+    <div style="margin-top: auto; opacity: 0.2; font-size: 0.6rem; letter-spacing: 2px;">CORETRACK ELITE V4.8.2</div>
 </nav>
 
 <div class="container">
@@ -374,7 +380,7 @@
 </div>
 
 <script>
-    /* --- STATE --- */
+    /* --- STATE MANAGEMENT --- */
     let coreData = JSON.parse(localStorage.getItem('coretrack_v4_8_data')) || {
         plans: [], history: [], health: {}, catalog: {}, weight: 80
     };
@@ -391,7 +397,7 @@
     const CATEGORIES = ["Brust", "Rücken", "Beine", "Schultern", "Arme"];
     const CAT_COLORS = { "Brust": "var(--cat-brust)", "Rücken": "var(--cat-ruecken)", "Beine": "var(--cat-beine)", "Schultern": "var(--cat-schultern)", "Arme": "var(--cat-arme)", "Gym": "var(--cat-gym)" };
 
-    /* --- UTILS --- */
+    /* --- CORE UTILS --- */
     function save() { localStorage.setItem('coretrack_v4_8_data', JSON.stringify(coreData)); }
     function getToday() { return new Date().toISOString().split('T')[0]; }
     function toggleMenu() { document.getElementById('side-menu').classList.toggle('open'); }
@@ -526,7 +532,7 @@
 
             return `
             <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
                     <div>
                         <strong style="font-size:1rem;">${ex}</strong><br>
                         <span class="cat-badge" style="border-color:${CAT_COLORS[cat]}; color:${CAT_COLORS[cat]}; margin-top:5px;">${cat}</span>
